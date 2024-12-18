@@ -11,7 +11,7 @@ export default function NoteItem({ note, onPress, onDelete }) {
         <Text style={styles.date}>Updated {moment(new Date(note.updated)).fromNow()}</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.deleteButton} onPress={() => onDelete(note.id)}>
-        <Icon name="delete" size={20} color="#fff" />
+        <Icon name="delete" size={16} color="#ff0000" />
       </TouchableOpacity>
     </View>
   );
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     marginTop: 10,
     borderRadius: 8,
-    backgroundColor: '#fff',
+    backgroundColor: '#222',
     elevation: 2, // Shadow for Android
     shadowColor: '#000', // Shadow for iOS
     shadowOffset: { width: 0, height: 2 }, // Shadow for iOS
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#f5f5f5',
   },
   date: {
     fontSize: 12,
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     width: 35,
     height: 35,
     borderRadius: 20, // Makes it round
-    backgroundColor: '#ff5252', // Red delete color
+    backgroundColor: '#111', // Red delete color
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 4, // Shadow for Android

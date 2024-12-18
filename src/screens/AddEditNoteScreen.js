@@ -12,6 +12,8 @@ export default function AddEditNoteScreen({ navigation, route }) {
   const [title, setTitle] = useState(note?.title || '');
   const [content, setContent] = useState(note?.content || '');
 
+
+
   // Set header title based on whether editing or creating
   useEffect(() => {
     navigation.setOptions({
@@ -37,15 +39,21 @@ export default function AddEditNoteScreen({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      {/* <TextInput
-        style={styles.input}
-        placeholder="Title"
+      <TextInput
+        style={{
+          fontSize:20,
+          color:'#f5f5f5'
+        }}
+        
         value={title}
         onChangeText={setTitle}
-      /> */}
+        placeholder="Title"
+        placeholderTextColor="#555"
+      />
       <TextInput
         style={styles.input}
         placeholder="Type yout note..."
+        placeholderTextColor="#555"
         value={content}
         onChangeText={setContent}
         textAlignVertical="top"
@@ -68,6 +76,6 @@ export default function AddEditNoteScreen({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16, backgroundColor: 'white' },
-  input: { borderWidth: 1, flex:1, borderRadius:10, borderColor:'#ddd', marginBottom: 16, padding: 8, color:"#000", fontWeight:'500' },
+  container: { flex: 1, padding: 16, backgroundColor: '#111' },
+  input: { flex:1, borderRadius:10, borderColor:'#ddd', marginBottom: 16, color:"#999", fontSize:12, fontWeight:'600' },
 });

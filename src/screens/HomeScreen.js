@@ -1,14 +1,19 @@
-import React, { useEffect } from 'react';
-import { View, FlatList, StyleSheet, Alert } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, FlatList, StyleSheet, Alert, TextInput } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { setNotes } from '../redux/notesSlice';
 import { getNotesFromStorage, saveNotesToStorage } from '../utils/storage';
 import FloatingButton from '../components/FloatingButton';
 import NoteItem from '../components/NoteItem';
+import AntDesign from 'react-native-vector-icons/AntDesign'
 
 export default function HomeScreen({ navigation }) {
   const notes = useSelector((state) => state.notes);
   const dispatch = useDispatch();
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredNotes, setFilteredNotes] = useState(notes);
+
 
   useEffect(() => {
     async function fetchNotes() {
@@ -20,7 +25,23 @@ export default function HomeScreen({ navigation }) {
 
   useEffect(() => {
     saveNotesToStorage(notes);
+    setFilteredNotes(notes); // Update filtered notes whenever notes change
   }, [notes]);
+
+  useEffect(() => {
+    if (searchQuery.trim() === '') {
+      setFilteredNotes(notes);
+    } else {
+      const lowerCaseQuery = searchQuery.toLowerCase();
+      setFilteredNotes(
+        notes.filter(
+          (note) =>
+            note.title.toLowerCase().includes(lowerCaseQuery) ||
+            note.content.toLowerCase().includes(lowerCaseQuery)
+        )
+      );
+    }
+  }, [searchQuery, notes]);
 
   const handleDelete = (id) => {
     Alert.alert(
@@ -42,8 +63,28 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+
+      <View style={{
+        backgroundColor: '#222', paddingHorizontal: 10, marginBottom: 10, marginHorizontal:15, borderRadius: 10,
+        flexDirection:'row',
+        alignItems: 'center',
+        justifyContent:'center',
+                borderRadius:10,
+      }} >
+        <View  >
+        <AntDesign name="search1" size={20} color="#f5f5f5"  />
+
+        </View>
+        <TextInput 
+          placeholder='Search'
+          style={{  color:'#f5f5f5', flex:1, marginLeft:5  }}
+          placeholderTextColor="#555"
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+        />
+      </View>
       <FlatList
-        data={notes}
+        data={filteredNotes}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <NoteItem
@@ -59,5 +100,5 @@ export default function HomeScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff' },
+  container: { flex: 1, backgroundColor: '#111' },
 });
